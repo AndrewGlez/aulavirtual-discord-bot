@@ -4,6 +4,12 @@ from dotenv import load_dotenv
 from datetime import datetime
 from datetime import timedelta
 import pytz
+import chromalog
+import logging
+import json
+
+chromalog.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger()
 load_dotenv()
 
 sesskey = os.getenv('sesskey')
@@ -48,7 +54,7 @@ def fetch_task():
             'args': {
                 'limitnum': 6,
                 'timesortfrom': int(datetime.now(getTimezone()).timestamp()),
-                'timesortto': int((datetime.now(getTimezone()) + timedelta(days=7)).timestamp()),
+                'timesortto': '1700542800', #int((datetime.now(getTimezone()) + timedelta(days=7)).timestamp()),
                 'limittononsuspendedevents': True,
             },
         },
@@ -62,7 +68,13 @@ def fetch_task():
         json=json_data,
         verify=False
     )
-    print(response.content)
+    logger.debug(f"current sesskey: {sesskey}, current MoodleSession: {MoodleSession}.")
 
+    #print(json.dumps(response.json(), indent=4))
+    
+    #with open('task.json', 'w') as f:
+    #    f.write(json.dumps(response.json(), indent=2))
+    
+    return response.json()
 
-fetch_task()
+#fetch_task()
