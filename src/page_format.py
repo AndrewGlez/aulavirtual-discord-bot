@@ -26,7 +26,7 @@ def get_page(MoodleSession, url):
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
     }
 
-    response = requests.get(f'{url}', cookies=cookies, headers=headers, verify=False)
+    response = requests.get(f'{url}', cookies=cookies, headers=headers, verify=False, timeout=5, allow_redirects=5)
 
     soup = BeautifulSoup(response.content, 'html.parser')
     
