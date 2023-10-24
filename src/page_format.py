@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 
-def get_page(MoodleSession, instanceid):
+def get_page(MoodleSession, url):
     cookies = {
         'MoodleSession': f'{MoodleSession}',
     }
@@ -26,23 +26,29 @@ def get_page(MoodleSession, instanceid):
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
     }
 
-    params = {
-        'id': f'{instanceid}',
-    }
-
-    response = requests.get('https://moodle.pucese.edu.ec/mod/lesson/view.php', params=params, cookies=cookies, headers=headers, verify=False)
+    response = requests.get(f'{url}', cookies=cookies, headers=headers, verify=False)
 
     soup = BeautifulSoup(response.content, 'html.parser')
-
-    box = soup.find('div', class_='inteconte')
-    box = box.text.strip()
-
-    links = soup.find('iframe')
     
-    links = links['src']
-
-    box = (re.sub(r"\s{2,}", "\n", box))
+    box = None
+    links = None
+    try:
+        box = soup.find('div', class_='inteconte')
+        box = box.text.strip()
+        box = (re.sub(r"\s{2,}", "\n", box))
+    except:
+        raise Exception("Could not format data in source page")
+    
+    try:
+        links = soup.find('iframe')
+        links = links['src']
+    except:
+        links = ''
     return box, links
+    
+
+
+
 
 #get_page('rqth1g58ash9o2m1vkmgkl7n4r', 19030)
 

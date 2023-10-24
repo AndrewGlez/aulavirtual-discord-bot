@@ -75,11 +75,11 @@ async def send_to():
 
             id = task['course']['id']
             task_name = task['name']
-            description = task['description'].replace("\\", "").replace("\r", "").replace("\n", "")
+            #description = task['description'].replace("\\", "").replace("\r", "").replace("\n", "")
             direct_url = task['url']
-            course_name = task['course']['fullname']
+            #course_name = task['course']['fullname']
             time = task['formattedtime']
-            instance = task['instance']
+            #instance = task['instance']
 
             # format remaining time
             soup_time = BeautifulSoup(time, 'html.parser')
@@ -88,10 +88,10 @@ async def send_to():
             # format description
             try:
                 params = os.getenv('MoodleSession')
-                box, links = get_page(params, instance)
+                box, links = get_page(params, direct_url)
                 formatted_desc = box
             except:
-                logger.error('Could not format page')
+                box = "null"
             
             # img's and authors
             with open('imgs.json', 'r') as d:
