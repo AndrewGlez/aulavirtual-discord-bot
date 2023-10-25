@@ -54,7 +54,7 @@ def fetch_task():
             'args': {
                 'limitnum': 6,
                 'timesortfrom': int(datetime.now(getTimezone()).timestamp()),
-                'timesortto': '1700542800', #int((datetime.now(getTimezone()) + timedelta(days=7)).timestamp()),
+                'timesortto': '1713762000', #int((datetime.now(getTimezone()) + timedelta(days=7)).timestamp()),
                 'limittononsuspendedevents': True,
             },
         },

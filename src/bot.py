@@ -32,7 +32,7 @@ async def on_ready():
             if await compare_data():
                 await send_to()
             else:
-                await asyncio.sleep(600)
+                await asyncio.sleep(120)
         except Exception:
             logger.error(f'{traceback.format_exc()}')
             error_embed = interactions.Embed(description=f'```{(traceback.format_exc())}```',
@@ -143,7 +143,7 @@ async def send_to():
             field_list = [
                 interactions.EmbedField(
                     name='Descripción',
-                    value=f'{formatted_desc}',
+                    value=f'{formatted_desc[:1024]}',
 
                 ),
                 interactions.EmbedField(
@@ -173,23 +173,19 @@ async def compare_data():
     new_data = fetch_task()
 
     # Current local data
-    try:
-        with open('task.json', 'r+') as f:
+    with open('task.json', 'r') as f:
+        try:
             current_data = json.load(f)
-            # Compare
-            new_ids = {item['id'] for item in new_data[0]['data']['events']}
-            current_ids = {item['id'] for item in current_data[0]['data']['events']}
-            if new_ids != current_ids:
-                f.seek(0)
-                f.truncate()
-                f.write(json.dumps(new_data, indent=2))
-                return True
-            return False
-    except:
+        except json.JSONDecodeError:
+            current_data = None
+
+    # Compare data
+    if current_data != new_data:
         with open('task.json', 'w') as f:
-            f.seek(0)
-            f.truncate()
-            f.write(json.dumps(new_data, indent=2))
+            json.dump(new_data, f, indent=2)
+        return True
+    return False
+    
 
 
 
