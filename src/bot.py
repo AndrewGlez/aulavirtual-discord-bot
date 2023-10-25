@@ -132,7 +132,12 @@ async def send_to():
                                                       icon_url=data[0]['docente']['sayago'])
                     color = interactions.Color.from_rgb(44, 94, 0)
                     course_image = data[0]['cursos']['BDD']
-                    
+                if id == 651:
+                    channel = bot.get_channel(1145851144510373999)
+                    author = interactions.EmbedAuthor(name='Homero Velastegui',
+                                                      icon_url=data[0]['docente']['homero'])
+                    color = interactions.Color.from_rgb(44, 94, 0)
+                    course_image = data[0]['cursos']['TA']
 
             # embed constructor
             field_list = [
@@ -168,18 +173,23 @@ async def compare_data():
     new_data = fetch_task()
 
     # Current local data
-    with open('task.json', 'r+') as f:
-        current_data = json.load(f)
-        # Compare
-        new_ids = {item['id'] for item in new_data[0]['data']['events']}
-        current_ids = {item['id'] for item in current_data[0]['data']['events']}
-        if new_ids != current_ids:
+    try:
+        with open('task.json', 'r+') as f:
+            current_data = json.load(f)
+            # Compare
+            new_ids = {item['id'] for item in new_data[0]['data']['events']}
+            current_ids = {item['id'] for item in current_data[0]['data']['events']}
+            if new_ids != current_ids:
+                f.seek(0)
+                f.truncate()
+                f.write(json.dumps(new_data, indent=2))
+                return True
+            return False
+    except:
+        with open('task.json', 'w') as f:
             f.seek(0)
             f.truncate()
             f.write(json.dumps(new_data, indent=2))
-            return True
-        return False
-                
 
 
 
