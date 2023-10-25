@@ -52,7 +52,7 @@ def fetch_task():
             'index': 0,
             'methodname': 'core_calendar_get_action_events_by_timesort',
             'args': {
-                'limitnum': 6,
+                'limitnum': 26,
                 'timesortfrom': int(datetime.now(getTimezone()).timestamp()),
                 'timesortto': '1713762000', #int((datetime.now(getTimezone()) + timedelta(days=7)).timestamp()),
                 'limittononsuspendedevents': True,

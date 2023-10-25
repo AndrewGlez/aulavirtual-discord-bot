@@ -127,7 +127,7 @@ async def send_to():
                     color = interactions.Color.from_rgb(94, 0, 75)
                     course_image = data[0]['cursos']['IOT']
                 if id == 202:
-                    channel = bot.get_channel(1145851213854818334)
+                    channel = bot.get_channel(1145851275804676197)
                     author = interactions.EmbedAuthor(name='Jaime Paúl Sayago',
                                                       icon_url=data[0]['docente']['sayago'])
                     color = interactions.Color.from_rgb(44, 94, 0)
