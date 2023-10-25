@@ -10,6 +10,8 @@ import json
 from bs4 import BeautifulSoup
 from page_format import get_page
 import traceback
+import os
+import sys
 
 
 chromalog.basicConfig(level=logging.DEBUG)
@@ -59,6 +61,7 @@ async def update_keys(ctx: SlashContext,
     set_key(".env", "MoodleSession", moodle_session)
 
     await ctx.send(content="Environment variables updated!")
+    restart_program()
 
 
 async def send_to():
@@ -172,6 +175,9 @@ async def compare_data():
     # Fetch new data
     new_data = fetch_task()
 
+    if new_data[0]['error'] != False:
+        raise Exception('Need credentials update')
+
     # Current local data
     with open('task.json', 'r') as f:
         try:
@@ -186,7 +192,8 @@ async def compare_data():
         return True
     return False
     
-
+def restart_program():
+    os.execv(sys.executable, ['python'] + sys.argv)
 
 
 bot.start(str(os.getenv('bot-token')))
