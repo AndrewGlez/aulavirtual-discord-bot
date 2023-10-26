@@ -95,6 +95,8 @@ async def send_to():
                 formatted_desc = box
             except:
                 box = "null"
+                formatted_desc = box
+                links = ""
             
             # img's and authors
             with open('imgs.json', 'r') as d:
