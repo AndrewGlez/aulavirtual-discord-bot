@@ -63,7 +63,6 @@ async def update_keys(ctx: SlashContext,
     await ctx.send(content="Environment variables updated!")
     restart_program()
 
-
 async def send_to():
     channel = None
     author = None
@@ -195,7 +194,8 @@ async def compare_data():
     return False
     
 def restart_program():
-    os.execv(sys.executable, ['python'] + sys.argv)
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
 
 
 bot.start(str(os.getenv('bot-token')))
